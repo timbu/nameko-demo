@@ -10,6 +10,7 @@ from nameko_tracer import Tracer
 
 from platform_lock.dependencies.lock import DistributedLock
 
+from config import Config
 from source_tracker import SourceTracker
 from tasks import ScheduleTask
 
@@ -40,6 +41,8 @@ class SalesforceService:
 
     slack = Slack()
 
+    config = Config()
+
     @event_handler('contacts', 'contact_created')
     def handle_platform_contact_created(self, payload):
 
@@ -69,9 +72,10 @@ class SalesforceService:
             {'LastName': payload['contact']['name']}
         )
         print('Created {} on salesforce'.format(result))
+
         self.slack.api_call(
             'chat.postMessage',
-            channel='XYZ',
+            channel=self.config['SLACK']['CHANNEL'],
             text='Created contact {} on salesforce'.format(result['id']),
         )
 

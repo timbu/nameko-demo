@@ -1,0 +1,27 @@
+AMQP_URI: amqp://${RABBIT_USER:guest}:${RABBIT_PASS:guest}@${RABBIT_SERVER:localhost}:${RABBIT_PORT:5672}/${RABBIT_VHOST:}
+
+SALESFORCE:
+    USERNAME: ${SALESFORCE_USERNAME:salesforce-api-test@example.com}
+    PASSWORD: ${SALESFORCE_PASSWORD:password}
+    SECURITY_TOKEN: ${SALESFORCE_SECURITY_TOKEN:token}
+    SANDBOX: ${SALESFORCE_SANDBOX:true}
+
+REDIS_URI: redis://${REDIS_SERVER:localhost}:${REDIS_PORT:6379}/${REDIS_DB:1}
+
+LOGGING:
+    version: 1
+    formatters:
+        tracer:
+            (): nameko_tracer.formatters.JSONFormatter
+    handlers:
+        tracer:
+            class: logging.StreamHandler
+            formatter: tracer
+    loggers:
+        nameko_tracer:
+            level: INFO
+            handlers: [tracer]
+
+SLACK:
+    TOKEN: ${SLACK_TOKEN:token}
+    CHANNEL: ${SLACK_CHANNEL:XYZ}

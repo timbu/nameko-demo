@@ -1,0 +1,7 @@
+AMQP_URI: amqp://${RABBIT_USER:guest}:${RABBIT_PASS:guest}@${RABBIT_SERVER:localhost}:${RABBIT_PORT:5672}/${RABBIT_VHOST:}
+
+DB_URIS:
+    "contacts:Base": mysql+mysqlconnector://${DB_USER:root}:${DB_PASS:}@${DB_SERVER:localhost}:${DB_PORT:3306}/${DB_NAME:contacts}
+
+SLACK:
+    TOKEN: ${SLACK_TOKEN:token}
