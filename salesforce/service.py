@@ -1,5 +1,15 @@
+# BASIC UP AND DOWN SYNC
+# SKIP DUPLICATES
+# SOURCE TRACKING
+# ASYNC TASKS
+# DEBOUNCE
+# RETRY
+# TRACER
+# SLACK
+
 from nameko.rpc import RpcProxy
 from nameko.events import event_handler
+from nameko.dependency_providers import Config
 
 from nameko_salesforce.streaming import handle_sobject_notification
 from nameko_salesforce.api import SalesforceAPI
@@ -10,7 +20,7 @@ from nameko_tracer import Tracer
 
 from platform_lock.dependencies.lock import DistributedLock
 
-from config import Config
+
 from source_tracker import SourceTracker
 from tasks import ScheduleTask
 
