@@ -1,28 +1,23 @@
-# BASIC UP AND DOWN SYNC
-# SKIP DUPLICATES
-# SOURCE TRACKING
-# ASYNC TASKS
-# DEBOUNCE
-# RETRY
-# TRACER
-# SLACK
-
 from nameko.rpc import RpcProxy
 from nameko.events import event_handler
-from nameko.dependency_providers import Config
 
 from nameko_salesforce.streaming import handle_sobject_notification
 from nameko_salesforce.api import SalesforceAPI
 
 from nameko_amqp_retry import entrypoint_retry
-from nameko_slack.web import Slack
-from nameko_tracer import Tracer
 
 from platform_lock.dependencies.lock import DistributedLock
 
-
 from source_tracker import SourceTracker
 from tasks import ScheduleTask
+
+
+print("BASIC UP AND DOWN SYNC")
+print("SKIP DUPLICATES")
+print("SOURCE TRACKING")
+print("ASYNC TASKS")
+print("DEBOUNCE")
+print("RETRY")
 
 
 def skip_duplicate_key(sobject_type, record_type, notification):
@@ -46,12 +41,6 @@ class SalesforceService:
     source_tracker = SourceTracker()
 
     schedule_task = ScheduleTask()
-
-    tracer = Tracer()
-
-    slack = Slack()
-
-    config = Config()
 
     @event_handler('contacts', 'contact_created')
     def handle_platform_contact_created(self, payload):
@@ -78,16 +67,14 @@ class SalesforceService:
         schedule=(1000, 1000, 2000),
     )
     def create_on_salesforce(self, payload):
+        print('Trying to create on salesforce...')
+        print("")
+        raise ValueError()
+
         result = self.salesforce.Contact.create(
             {'LastName': payload['contact']['name']}
         )
         print('Created {} on salesforce'.format(result))
-
-        self.slack.api_call(
-            'chat.postMessage',
-            channel=self.config['SLACK']['CHANNEL'],
-            text='Created contact {} on salesforce'.format(result['id']),
-        )
 
     @schedule_task.task
     @lock.debounce(key=debounce_key, repeat=True)

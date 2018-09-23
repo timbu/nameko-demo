@@ -1,12 +1,15 @@
+
+
 from nameko.events import EventDispatcher
 
 from nameko_autocrud import AutoCrudWithEvents
-from nameko_slack import rtm
 from nameko_sqlalchemy import DatabaseSession
-
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
+
+print("BASIC SERVICE")
+print("AUTOCRUD")
 
 
 class ModelBase:
@@ -45,9 +48,3 @@ class ContactsService:
         create_event_name='contact_created',
         update_event_name='contact_updated',
     )
-
-    @rtm.handle_message('^create contact (?P<name>\w+)')
-    def slack_create_contact(self, event, message, name=None):
-        return 'Contact created on platform: {}'.format(
-            self.create_contact({'name': name})
-        )
