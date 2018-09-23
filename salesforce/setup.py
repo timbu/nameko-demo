@@ -11,9 +11,10 @@ setup(
         "nameko==2.9.0-rc0",
         "nameko-salesforce==1.2.0",
         "nameko-amqp-retry==0.6.0",
-        "platform-lock==0.0.6",
         "nameko-tracer==1.2.0",
         "nameko-slack==0.0.5",
+        "nameko-redis-1.1.0",
+        "ddebounce==0.0.1",  # TODO
     ],
     extras_require={
         'dev': [

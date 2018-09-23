@@ -1,6 +1,5 @@
 from nameko.rpc import RpcProxy
 from nameko.events import event_handler
-
 from nameko_salesforce.streaming import handle_sobject_notification
 from nameko_salesforce.api import SalesforceAPI
 

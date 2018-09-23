@@ -1,10 +1,11 @@
+import operator
+
 from nameko.rpc import RpcProxy
 from nameko.events import event_handler
-
 from nameko_salesforce.streaming import handle_sobject_notification
 from nameko_salesforce.api import SalesforceAPI
-
-from platform_lock.dependencies.lock import DistributedLock
+from nameko_redis import Redis
+from ddebounce import skip_duplicates
 
 from source_tracker import SourceTracker
 
@@ -26,9 +27,9 @@ class SalesforceService:
 
     salesforce = SalesforceAPI()
 
-    lock = DistributedLock()
-
     source_tracker = SourceTracker()
+
+    redis = Redis('lock')
 
     @event_handler('contacts', 'contact_created')
     def handle_platform_contact_created(self, payload):
@@ -46,7 +47,7 @@ class SalesforceService:
         'Contact', exclude_current_user=True,
         notify_for_operation_update=False
     )
-    @lock.skip_duplicates(key=skip_duplicate_key)
+    @skip_duplicates(operator.attrgetter('redis'), key=skip_duplicate_key)
     def handle_sf_contact_created(self, sobject_type, record_type, notification):
         with self.source_tracker.sourced_from_salesforce():
             contact = self.contacts_rpc.create_contact(
