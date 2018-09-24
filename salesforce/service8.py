@@ -90,7 +90,7 @@ class SalesforceService:
         self.slack.api_call(
             'chat.postMessage',
             channel=self.config['SLACK']['CHANNEL'],
-            text='Created contact {} on salesforce'.format(result['id']),
+            text='Created contact {} on salesforce :hammertime:'.format(result['id']),
         )
 
     @schedule_task.task

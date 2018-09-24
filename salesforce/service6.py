@@ -72,7 +72,6 @@ class SalesforceService:
     )
     def create_on_salesforce(self, payload):
         print('Trying to create on salesforce...')
-        print("")
         raise ValueError()
 
         result = self.salesforce.Contact.create(
