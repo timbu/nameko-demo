@@ -8,7 +8,7 @@ from nameko_redis import Redis
 from ddebounce import skip_duplicates, debounce
 
 from source_tracker import SourceTracker
-from tasks import ScheduleTask
+from tasks import ScheduleTask, task
 
 
 print("BASIC UP AND DOWN SYNC")
@@ -61,7 +61,7 @@ class SalesforceService:
     def handle_sf_contact_created(self, sobject_type, record_type, notification):
         self.schedule_task(self.create_on_platform, notification)
 
-    @schedule_task.task
+    @task
     @debounce(operator.attrgetter('redis'), key=debounce_key_sf, repeat=True)
     def create_on_salesforce(self, payload):
         print("sleeping...")
@@ -73,7 +73,7 @@ class SalesforceService:
         )
         print('Created {} on salesforce'.format(result))
 
-    @schedule_task.task
+    @task
     @debounce(operator.attrgetter('redis'), key=debounce_key_plat, repeat=True)
     def create_on_platform(self, payload):
         with self.source_tracker.sourced_from_salesforce():
