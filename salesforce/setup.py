@@ -8,17 +8,16 @@ setup(
     packages=find_packages("src"),
     package_dir={},
     install_requires=[
-        "nameko==2.9.0-rc0",
+        "nameko==2.11.0",
         "nameko-salesforce==1.2.0",
         "nameko-amqp-retry==0.6.0",
         "nameko-tracer==1.2.0",
         "nameko-slack==0.0.5",
         "nameko-redis-1.1.0",
-        "ddebounce==0.0.1",  # TODO
+        "ddebounce==0.0.1",
     ],
     extras_require={
-        'dev': [
-        ],
+        'dev': [],
     },
     zip_safe=True
 )

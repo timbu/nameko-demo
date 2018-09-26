@@ -37,7 +37,6 @@ class SalesforceService:
         notify_for_operation_update=False
     )
     def handle_sf_contact_created(self, sobject_type, record_type, notification):
-
         with self.source_tracker.sourced_from_salesforce():
             contact = self.contacts_rpc.create_contact(
                 {'name': notification['sobject']['Name']}
